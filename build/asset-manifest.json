@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5598c7be.css",
+    "main.js": "/static/js/main.c05575ce.js",
+    "static/js/787.cda612ba.chunk.js": "/static/js/787.cda612ba.chunk.js",
+    "static/media/pro.png": "/static/media/pro.030a6e0cd0d9e384a837.png",
+    "static/media/home.png": "/static/media/home.c39101e520e2997fc6d4.png",
+    "static/media/mern.svg": "/static/media/mern.2416cb4d86720ba78037b3fd008f1c0b.svg",
+    "static/media/bootstrap.png": "/static/media/bootstrap.d650a3504bbdd7a8dba2.png",
+    "static/media/highfee cv.pdf": "/static/media/highfee cv.3ba502f3c06da5c85474.pdf",
+    "static/media/css.png": "/static/media/css.75637854ae9526feeec9.png",
+    "static/media/web.svg": "/static/media/web.53b57c3d2417264fab4d7bf9c5ff7b94.svg",
+    "static/media/react.svg": "/static/media/react.6cdef88584a988b539052d91d716b3e9.svg",
+    "static/media/node.jpg": "/static/media/node.d09da6de5da26091666f.jpg",
+    "static/media/free2.png": "/static/media/free2.dfa71db8c2d05367bed2.png",
+    "static/media/python.png": "/static/media/python.212de8d7278260fca353.png",
+    "static/media/mern.jpg": "/static/media/mern.ec009eba3c4e18b7def5.jpg",
+    "static/media/mob3.svg": "/static/media/mob3.be2b4a058c97585c785911f5682066a0.svg",
+    "index.html": "/index.html",
+    "main.5598c7be.css.map": "/static/css/main.5598c7be.css.map",
+    "main.c05575ce.js.map": "/static/js/main.c05575ce.js.map",
+    "787.cda612ba.chunk.js.map": "/static/js/787.cda612ba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5598c7be.css",
+    "static/js/main.c05575ce.js"
+  ]
+}
