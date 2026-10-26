@@ -9,18 +9,23 @@ import react from "../images/react.png";
 import mern from "../images/mern.svg";
 import rust from "../images/rust.svg";
 import { EASE, container, fadeInUp, viewport } from "../lib/motion";
+import { useApi } from "../lib/api";
+
+const icons = { html, css, tailwind, javascript, react, mern, rust };
 
 const skills = [
-  { name: "HTML", detail: "Markup & semantics", icon: html, percent: 90 },
-  { name: "CSS", detail: "Styling & layout", icon: css, percent: 90 },
-  { name: "Tailwind", detail: "Utility-first CSS", icon: tailwind, percent: 90 },
-  { name: "JavaScript", detail: "Language of the web", icon: javascript, percent: 85 },
-  { name: "React JS", detail: "Component-based UI", icon: react, percent: 90 },
-  { name: "MERN", detail: "MongoDB, Express, React, Node", icon: mern, percent: 85 },
-  { name: "Rust", detail: "Systems programming", icon: rust, percent: 20 },
+  { name: "HTML", detail: "Markup & semantics", icon: "html", percent: 90 },
+  { name: "CSS", detail: "Styling & layout", icon: "css", percent: 90 },
+  { name: "Tailwind", detail: "Utility-first CSS", icon: "tailwind", percent: 90 },
+  { name: "JavaScript", detail: "Language of the web", icon: "javascript", percent: 85 },
+  { name: "React JS", detail: "Component-based UI", icon: "react", percent: 90 },
+  { name: "MERN", detail: "MongoDB, Express, React, Node", icon: "mern", percent: 85 },
+  { name: "Rust", detail: "Systems programming", icon: "rust", percent: 70 },
 ];
 
 const Skills = () => {
+  const items = useApi("/api/skills", skills);
+
   return (
     <motion.div
       initial="hidden"
@@ -39,7 +44,7 @@ const Skills = () => {
       </motion.h2>
 
       <div className="mt-12">
-        {skills.map(({ name, detail, icon, percent }) => (
+        {items.map(({ name, detail, icon, percent }) => (
           <motion.div
             key={name}
             variants={fadeInUp}
@@ -47,7 +52,11 @@ const Skills = () => {
           >
             <div className="flex items-center gap-4">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-border bg-card">
-                <img src={icon} alt="" className="h-7 w-7 object-contain" />
+                {icons[icon] ? (
+                  <img src={icons[icon]} alt="" className="h-7 w-7 object-contain" />
+                ) : (
+                  <span className="font-heading text-lg text-accent">{name.charAt(0)}</span>
+                )}
               </div>
               <div>
                 <h3 className="font-medium">{name}</h3>

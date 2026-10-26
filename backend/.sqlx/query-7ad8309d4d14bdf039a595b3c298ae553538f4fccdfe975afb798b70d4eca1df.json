@@ -1,0 +1,28 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT created_at::date AS \"day!\", COUNT(*) AS \"views!\"\n           FROM events\n           WHERE kind = 'page_view' AND created_at > now() - interval '30 days'\n           GROUP BY 1 ORDER BY 1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "day!",
+        "type_info": "Date",
+        "origin": "Expression"
+      },
+      {
+        "ordinal": 1,
+        "name": "views!",
+        "type_info": "Int8",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null,
+      null
+    ]
+  },
+  "hash": "7ad8309d4d14bdf039a595b3c298ae553538f4fccdfe975afb798b70d4eca1df"
+}

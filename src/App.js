@@ -7,10 +7,16 @@ import Services from "./components/Services";
 import SideNav from "./components/SideNav";
 import Skills from "./components/Skills";
 import Work from "./components/Work";
+import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { trackEvent } from "./lib/api";
 
 function App() {
+  useEffect(() => {
+    trackEvent("page_view", window.location.pathname);
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-background text-foreground">
       <div className="noise-overlay" />

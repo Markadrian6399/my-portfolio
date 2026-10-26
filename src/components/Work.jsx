@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Briefcase } from "lucide-react";
 import SectionLabel from "./SectionLabel";
 import { container, fadeInUp, viewport } from "../lib/motion";
+import { useApi } from "../lib/api";
 
 const jobs = [
   {
@@ -28,6 +29,8 @@ const jobs = [
 ];
 
 const Work = () => {
+  const items = useApi("/api/experience", jobs);
+
   return (
     <motion.div
       initial="hidden"
@@ -46,16 +49,16 @@ const Work = () => {
       </motion.h2>
 
       <div className="mt-14">
-        {jobs.map(({ company, role, period, description }, index) => (
+        {items.map(({ id, company, role, period, description }, index) => (
           <motion.div
-            key={company}
+            key={id ?? company}
             variants={fadeInUp}
             className="grid grid-cols-[88px_1fr] gap-4 sm:grid-cols-[140px_1fr] sm:gap-8"
           >
             <p className="pt-0.5 text-sm text-mutedForeground sm:text-base">{period}</p>
             <div
               className={`relative border-l border-border pl-8 ${
-                index < jobs.length - 1 ? "pb-14" : ""
+                index < items.length - 1 ? "pb-14" : ""
               }`}
             >
               <span className="absolute -left-[6px] top-1.5 h-[11px] w-[11px] rounded-full bg-accent shadow-[0_0_12px_#00DE51]" />

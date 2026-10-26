@@ -3,6 +3,7 @@ import { ArrowUpRight, FileText } from "lucide-react";
 import mk from "../images/mk.png";
 import cv from "../images/MARK CV.pdf";
 import { roles, socials } from "../lib/data";
+import { trackEvent } from "../lib/api";
 
 const useTypedText = (words) => {
   const [index, setIndex] = useState(0);
@@ -96,7 +97,8 @@ const ProfileCard = () => {
               </a>
               <a
                 href={cv}
-                download
+                download="Mark Adakole Odiba CV.pdf"
+                onClick={() => trackEvent("cv_download")}
                 className="ml-3 inline-flex items-center gap-2 text-sm text-foreground/80 transition-colors duration-150 hover:text-accent"
               >
                 <FileText size={16} strokeWidth={1.5} />
