@@ -1,84 +1,73 @@
-import { useSelector } from "react-redux";
-import cv from "../images/MARK CV.pdf";
+import { useEffect, useState } from "react";
+import {
+  ArrowUp,
+  Briefcase,
+  Cpu,
+  House,
+  Layers,
+  Send,
+  Sparkles,
+  UserRound,
+} from "lucide-react";
+
+const navLinks = [
+  { id: "home", label: "Home", icon: House },
+  { id: "about", label: "About", icon: UserRound },
+  { id: "work", label: "Experience", icon: Briefcase },
+  { id: "portfolio", label: "Projects", icon: Sparkles },
+  { id: "services", label: "Services", icon: Layers },
+  { id: "skills", label: "Tech Stack", icon: Cpu },
+  { id: "contact", label: "Contact", icon: Send },
+];
 
 const SideNav = () => {
-  const theme = useSelector((state) => state.theme.value);
+  const [active, setActive] = useState("home");
 
-  const click = () => {
-    document.querySelector(".side-nav").classList.remove("navbar");
-  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    navLinks.forEach(({ id }) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+    return () => observer.disconnect();
+  }, []);
 
-  const style = {
-    div: {
-      background:
-        theme === "light" ? "rgba(255,255,255,.8)" : "rgba(0, 0, 0, .8)",
-      position: "fixed",
-      top: "68px",
-      right: "0",
-      width: "80vw",
-      height: "100vh",
-      zIndex: "20000",
-      padding: "50px 0px",
-      transform: "translateX(100vw)",
-      transition: "transform .5s ease-in",
-      backdropFilter: "blur(2px)",
-      boxShadow: "0px 0px 12px rgba(0, 0, 0, 0.1)",
-    },
-    ul: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: "50px",
-    },
-    links: {
-      color: theme === "light" ? "#333" : "#fff",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      lineSpacing: "5px",
-      cursor: "pointer",
-    },
-    a: {
-      border: theme === "light" ? "1px solid black" : "1px solid white",
-    },
-  };
   return (
-    <div className="side-nav" style={style.div}>
-      <ul style={style.ul}>
-        <li>
-          <a href="#home" style={style.links} onClick={click}>
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="#about" style={style.links} onClick={click}>
-            About
-          </a>
-        </li>
-        <li>
-          <a href="#skills" style={style.links} onClick={click}>
-            Skills
-          </a>
-        </li>
-        <li>
-          <a href="#portfolio" style={style.links} onClick={click}>
-            Portfolio
-          </a>
-        </li>
-        <li>
-          <a href="#work" style={style.links} onClick={click}>
-            Experience
-          </a>
-        </li>
-        <li>
-          <a href="#contact" style={style.links} onClick={click}>
-            Contact
-          </a>
-        </li>
+    <nav className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-3 lg:bottom-auto lg:left-auto lg:right-6 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:flex-col">
+      <ul className="flex items-center gap-1 rounded-full border border-border bg-card/90 p-1.5 backdrop-blur lg:flex-col">
+        {navLinks.map(({ id, label, icon: Icon }) => (
+          <li key={id}>
+            <a
+              href={`#${id}`}
+              title={label}
+              aria-label={label}
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-150 ${
+                active === id
+                  ? "bg-white/5 text-accent"
+                  : "text-mutedForeground hover:text-foreground"
+              }`}
+            >
+              <Icon size={16} strokeWidth={1.75} />
+            </a>
+          </li>
+        ))}
       </ul>
-      <a href={cv} style={style.a}>
-        Download CV
+      <a
+        href="#home"
+        title="Back to top"
+        aria-label="Back to top"
+        className="hidden h-12 w-12 items-center justify-center rounded-full border border-border bg-card/90 text-mutedForeground backdrop-blur transition-colors duration-150 hover:text-accent lg:flex"
+      >
+        <ArrowUp size={16} strokeWidth={1.75} />
       </a>
-    </div>
+    </nav>
   );
 };
 

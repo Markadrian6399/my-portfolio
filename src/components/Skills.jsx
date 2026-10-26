@@ -1,161 +1,76 @@
-import { useInView } from "react-intersection-observer";
-import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
+import { Cpu } from "lucide-react";
+import SectionLabel from "./SectionLabel";
+import html from "../images/html.png";
+import css from "../images/css.png";
+import tailwind from "../images/tailwind.png";
+import javascript from "../images/javascript.png";
+import react from "../images/react.png";
+import mern from "../images/mern.svg";
+import rust from "../images/rust.svg";
+import { EASE, container, fadeInUp, viewport } from "../lib/motion";
+
+const skills = [
+  { name: "HTML", detail: "Markup & semantics", icon: html, percent: 90 },
+  { name: "CSS", detail: "Styling & layout", icon: css, percent: 90 },
+  { name: "Tailwind", detail: "Utility-first CSS", icon: tailwind, percent: 90 },
+  { name: "JavaScript", detail: "Language of the web", icon: javascript, percent: 85 },
+  { name: "React JS", detail: "Component-based UI", icon: react, percent: 90 },
+  { name: "MERN", detail: "MongoDB, Express, React, Node", icon: mern, percent: 85 },
+  { name: "Rust", detail: "Systems programming", icon: rust, percent: 20 },
+];
 
 const Skills = () => {
-  const theme = useSelector((state) => state.theme.value);
-  const { ref: myRef, inView: elementVisible } = useInView();
-  // console.log(elementVisible);
-
-  const style = {
-    skills: {
-      width: "100vw",
-      padding: "40px 10%",
-      position: "relative",
-      background: theme === "light" ? `` : "none",
-    },
-    circle: {
-      stroke: theme === "light" ? "lime" : "lime",
-      strokeWidth: theme === "light" ? "2" : "2",
-    },
-    skill: {
-      color: theme === "light" ? "white" : "",
-      background: theme === "light" ? "rgba(66,62,62,1)" : "",
-    },
-  };
   return (
-    <div className="area" style={style.skills} ref={myRef}>
-      <h1 className="underline">Skills</h1>
-      <div className="skills" style={{ marginTop: "40px" }}>
-        <div className="skill" style={style.skill}>
-          <div className="percent">
-            <div className="skill-dot" id={elementVisible ? "dot" : ""}></div>
-            <svg>
-              <circle cx="70" cy="70" r="70" />
-              <circle
-                cx="70"
-                cy="70"
-                r="70"
-                style={style.circle}
-                id={elementVisible ? "circle-fade" : ""}
-              />
-            </svg>
-          </div>
-          <div className="num">
-            <h2>
-              90<span>%</span>
-            </h2>
-            <p>HTML</p>
-          </div>
-        </div>
-        <div className="skill" style={style.skill}>
-          <div className="percent">
-            <div className="skill-dot" id={elementVisible ? "dot" : ""}></div>
-            <svg>
-              <circle cx="70" cy="70" r="70" />
-              <circle
-                cx="70"
-                cy="70"
-                r="70"
-                style={style.circle}
-                id={elementVisible ? "circle-fade" : ""}
-              />
-            </svg>
-          </div>
-          <div className="num">
-            <h2>
-              90<span>%</span>
-            </h2>
-            <p>CSS</p>
-          </div>
-        </div>
-        <div className="skill" style={style.skill}>
-          <div className="percent">
-            <div className="skill-dot" id={elementVisible ? "dot" : ""}></div>
-            <svg>
-              <circle cx="70" cy="70" r="70" />
-              <circle
-                cx="70"
-                cy="70"
-                r="70"
-                style={style.circle}
-                id={elementVisible ? "circle-fade" : ""}
-              />
-            </svg>
-          </div>
-          <div className="num">
-            <h2>
-              90<span>%</span>
-            </h2>
-            <p>TAILWIND</p>
-          </div>
-        </div>
-        <div className="skill" style={style.skill}>
-          <div className="percent">
-            <div className="skill-dot" id={elementVisible ? "dot" : ""}></div>
-            <svg>
-              <circle cx="70" cy="70" r="70" />
-              <circle
-                cx="70"
-                cy="70"
-                r="70"
-                style={style.circle}
-                id={elementVisible ? "circle-fade" : ""}
-              />
-            </svg>
-          </div>
-          <div className="num">
-            <h2>
-              85<span>%</span>
-            </h2>
-            <p>JAVASCRIPT</p>
-          </div>
-        </div>
-        <div className="skill" style={style.skill}>
-          <div className="percent">
-            <div className="skill-dot" id={elementVisible ? "dot" : ""}></div>
-            <svg>
-              <circle cx="70" cy="70" r="70" />
-              <circle
-                cx="70"
-                cy="70"
-                r="70"
-                style={style.circle}
-                id={elementVisible ? "circle-fade" : ""}
-              />
-            </svg>
-          </div>
-          <div className="num">
-            <h2>
-              90<span>%</span>
-            </h2>
-            <p>REACT JS</p>
-          </div>
-        </div>
-        <div className="skill" style={style.skill}>
-          <div className="percent">
-            <div className="skill-dot" id={elementVisible ? "dot" : ""}>
-              {" "}
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={viewport}
+      variants={container}
+    >
+      <motion.div variants={fadeInUp}>
+        <SectionLabel icon={Cpu}>Tech Stack</SectionLabel>
+      </motion.div>
+      <motion.h2
+        variants={fadeInUp}
+        className="mt-8 font-heading text-3xl font-medium leading-tight tracking-tight text-foreground/80 md:text-4xl"
+      >
+        The tools I use to bring ideas to life
+      </motion.h2>
+
+      <div className="mt-12">
+        {skills.map(({ name, detail, icon, percent }) => (
+          <motion.div
+            key={name}
+            variants={fadeInUp}
+            className="flex flex-col gap-4 border-b border-border py-6 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex items-center gap-4">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-border bg-card">
+                <img src={icon} alt="" className="h-7 w-7 object-contain" />
+              </div>
+              <div>
+                <h3 className="font-medium">{name}</h3>
+                <p className="text-sm text-mutedForeground">{detail}</p>
+              </div>
             </div>
-            <svg>
-              <circle cx="70" cy="70" r="70" />
-              <circle
-                cx="70"
-                cy="70"
-                r="70"
-                style={style.circle}
-                id={elementVisible ? "circle-fade" : ""}
-              />
-            </svg>
-          </div>
-          <div className="num">
-            <h2>
-              85<span>%</span>
-            </h2>
-            <p>MERN</p>
-          </div>
-        </div>
+            <div className="relative h-11 w-full rounded-full border border-border bg-card sm:w-[45%]">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: `calc(${percent}% - 8px)` }}
+                viewport={viewport}
+                transition={{ duration: 0.9, ease: EASE }}
+                className="absolute inset-y-1 left-1 min-w-[64px] rounded-full bg-gradient-to-r from-accent/5 to-accent/25"
+              >
+                <span className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full border border-white/10 bg-background px-2.5 py-1 text-xs text-foreground/80">
+                  {percent}%
+                </span>
+              </motion.div>
+            </div>
+          </motion.div>
+        ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

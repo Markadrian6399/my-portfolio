@@ -1,104 +1,94 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
-import { FaEnvelope, FaWhatsapp } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { FaWhatsapp } from "react-icons/fa";
+import { Mail, Send } from "lucide-react";
 import { toast } from "react-toastify";
+import SectionLabel from "./SectionLabel";
 
 const Contact = () => {
-  const theme = useSelector((state) => state.theme.value);
   const form = useRef();
   const btn = useRef();
   const [loading, SetLoading] = useState(false);
 
   const sendEmail = async (e) => {
     e.preventDefault();
-    SetLoading("Sending......");
+    SetLoading("Sending...");
     btn.current.disabled = true;
     try {
-      const res = await emailjs.sendForm(
+      await emailjs.sendForm(
         "service_25w4cla",
         "template_qprrztq",
         form.current,
         "Z7N6Vq2E2V9j0HbJg"
       );
-      if (res) {
-        SetLoading("Sent");
-        btn.current.disabled = false;
-      } else {
-        SetLoading("Try again");
-        toast.error("Pls check internet connection");
-      }
+      SetLoading("Sent!");
+      toast.success("Message sent! I'll get back to you soon.");
+      form.current.reset();
     } catch (error) {
-      if (error.status === 0) {
-        toast.error("Pls check internet connection");
-        btn.current.disabled = false;
-      }
-      if (!error) {
-        SetLoading("Try again");
-        toast.error("Pls check internet connection");
-      }
+      SetLoading("Try again");
+      toast.error("Something went wrong. Please check your connection and try again.");
+    } finally {
+      btn.current.disabled = false;
+      setTimeout(() => SetLoading(false), 3000);
     }
+  };
 
-    // console.log(res.status);
-  };
-  const style = {
-    button:
-      theme === "dark"
-        ? {
-            background: "transparent",
-            color: "white",
-            border: "1px solid white",
-          }
-        : {
-            background: "transparent",
-            color: "#333",
-            border: "1px solid lime",
-          },
-  };
+  const inputClass =
+    "w-full h-14 rounded-2xl bg-input border border-border px-5 text-base text-foreground placeholder:text-mutedForeground focus:border-accent focus:outline-none transition-colors duration-150";
 
   return (
-    <section className="contact">
-      <h1>Grab A Coffee & Feel Free To Chat With Me</h1>
-      <a href="mailto:markodiba6399@gmail.com" className="card email">
-        <FaEnvelope /> markodiba6399@gmail.com
-      </a>
-      <a href="https://wa.me/09029121639" className="card email">
-        <FaWhatsapp /> Send me a whatsapp message
-      </a>
+    <div>
+      <SectionLabel icon={Send}>Contact</SectionLabel>
+      <h2 className="mt-8 font-heading text-3xl font-medium leading-tight tracking-tight text-foreground/80 md:text-4xl">
+        If you have a project in mind or just want to chat, drop me an email or
+        fill in the form. <span className="text-accent">Available now.</span>
+      </h2>
 
-      <form ref={form} onSubmit={sendEmail}>
-        <div className="form-control">
-          <input
-            type="text"
-            name="from_name"
-            placeholder="YOUR NAME "
-            required
-          />
-        </div>
-        <div className="form-control">
-          <input
-            type="email"
-            name="reply_to"
-            placeholder="YOUR EMAIL"
-            required
-          />
-        </div>
-        <div className="form-control">
-          <textarea name="message" rows="10" placeholder="MESSAGE" required />
-        </div>
-        <div className="form-control">
-          <input
+      <div className="mt-8 flex flex-wrap gap-3">
+        <a
+          href="mailto:markodiba6399@gmail.com"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm text-foreground/80 transition-colors duration-150 hover:border-accent hover:text-accent"
+        >
+          <Mail size={16} strokeWidth={1.5} />
+          markodiba6399@gmail.com
+        </a>
+        <a
+          href="https://wa.me/2349029121639"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm text-foreground/80 transition-colors duration-150 hover:border-accent hover:text-accent"
+        >
+          <FaWhatsapp size={16} />
+          WhatsApp me
+        </a>
+      </div>
+
+      <form ref={form} onSubmit={sendEmail} className="mt-12 grid gap-4 sm:grid-cols-2">
+        <input type="text" name="from_name" placeholder="Your name" required className={inputClass} />
+        <input type="email" name="reply_to" placeholder="Your email" required className={inputClass} />
+        <textarea
+          name="message"
+          rows="6"
+          placeholder="Your message"
+          required
+          className={`${inputClass} h-auto resize-y py-4 sm:col-span-2`}
+        />
+        <div>
+          <button
             type="submit"
-            value={loading || "Say Hello"}
-            style={style.button}
             ref={btn}
-          />
+            className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-accentForeground transition-opacity duration-150 hover:opacity-90 disabled:pointer-events-none disabled:opacity-50"
+          >
+            {loading || "Send Message"}
+            <Send size={15} />
+          </button>
         </div>
       </form>
-      <div style={{ marginTop: "80px" }}>
-        <h5>Designed & created by Odiba Mark</h5>
-      </div>
-    </section>
+
+      <footer className="mt-28 border-t border-border pt-8 text-sm text-mutedForeground">
+        © {new Date().getFullYear()} Mark Odiba. Designed & built by Mark Odiba.
+      </footer>
+    </div>
   );
 };
 
