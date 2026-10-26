@@ -1,50 +1,47 @@
-import { useSelector } from "react-redux";
 import About from "./components/About";
 import Contact from "./components/Contact";
-import Header from "./components/Header";
 import Home from "./components/Home";
 import Portfolio from "./components/Portfolio";
-import Separator from "./components/Separator";
+import ProfileCard from "./components/ProfileCard";
+import Services from "./components/Services";
 import SideNav from "./components/SideNav";
-import Sides from "./components/Sides";
 import Skills from "./components/Skills";
-// import Test from "./components/Test";
-import Toggle from "./components/Toggle";
 import Work from "./components/Work";
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
- 
-  const theme = useSelector(state => state.theme.value)
-  
-
-
-
   return (
-    <div className="body"  data-theme={theme} style={{position: 'relative'}}>
-      <div className="container" style={{position: 'relative'}}>
-        
-        <Toggle />
-        <Header />
-        <div className='section' id="home"><Home /></div>
-        <Sides />
-        {theme === 'dark' && <Separator />}
-        <div className='section' id="about"><About /></div>
-        {theme === 'dark' && <Separator />}
-        <div className='section' id="skills"><Skills /></div>
-        {theme === 'dark' && <Separator />}
-        <div className='section' id="portfolio"><Portfolio /></div>
-        {theme === 'dark' && <Separator />}
-        <div className='section' id="work"><Work /></div>
-        {theme === 'dark' && <Separator />}
-        <div className='section' id="contact"><Contact /></div>
-        <SideNav />
-        <ToastContainer/>
-        {/* <div style={{height: '100vh'}}></div> */}
-      </div>
+    <div className="relative min-h-screen bg-background text-foreground">
+      <div className="noise-overlay" />
+      <ProfileCard />
+      <main className="px-4 pb-28 sm:px-6 lg:ml-[424px] lg:pb-16 lg:pl-16 lg:pr-28 xl:ml-[480px]">
+        <div className="mx-auto max-w-[720px]">
+          <section id="home">
+            <Home />
+          </section>
+          <section id="about" className="pt-28 lg:pt-36">
+            <About />
+          </section>
+          <section id="work" className="pt-28 lg:pt-36">
+            <Work />
+          </section>
+          <section id="portfolio" className="pt-28 lg:pt-36">
+            <Portfolio />
+          </section>
+          <section id="services" className="pt-28 lg:pt-36">
+            <Services />
+          </section>
+          <section id="skills" className="pt-28 lg:pt-36">
+            <Skills />
+          </section>
+          <section id="contact" className="pt-28 lg:pt-36">
+            <Contact />
+          </section>
+        </div>
+      </main>
+      <SideNav />
+      <ToastContainer theme="dark" />
     </div>
   );
 }

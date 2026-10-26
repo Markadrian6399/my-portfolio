@@ -1,91 +1,55 @@
-import { useSelector } from "react-redux";
-import mern from "../images/mern.svg";
-import web from "../images/web.svg";
-import js from "../images/react.svg";
-import free from "../images/free2.png";
-import mobile from "../images/mob3.svg";
+import { motion } from "framer-motion";
+import { UserRound } from "lucide-react";
+import SectionLabel from "./SectionLabel";
+import { container, fadeInUp, viewport } from "../lib/motion";
+
+const facts = [
+  { label: "Experience", detail: "Web, mobile & desktop apps", value: "5 years" },
+  { label: "Currently", detail: "Software Dev Tutor", value: "Khemsafe" },
+  { label: "Focus", detail: "Front-end to back-end", value: "React, Node & Rust" },
+  { label: "Availability", detail: "Freelance & contract work", value: "Open" },
+];
 
 const About = () => {
-  // const theme = useSelector(state => state.theme.value)
-  const style = {
-    about: {
-      width: "100vw",
-      padding: "40px 10%",
-      zIndex: "999",
-      // backgroundImage: theme === 'light'? 'url(http://localhost:3000/logo.jpg)' : '',
-    },
-    hi: {
-      position: "relative",
-      transform: "translateX(-50%)",
-      left: "50%",
-      width: "fit-content",
-    },
-  };
   return (
-    <div className="about" style={style.about}>
-      <h1 className="underline" style={{ marginBottom: "20px" }}>
-        About Me
-      </h1>
-      <h1 className="colorText" style={style.hi}>
-        <span style={{ fontSize: "44px" }}>HI</span> <br />I AM ODIBA MARK
-      </h1>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "50px",
-          justifyContent: "center",
-          marginTop: "50px",
-        }}
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={viewport}
+      variants={container}
+    >
+      <motion.div variants={fadeInUp}>
+        <SectionLabel icon={UserRound}>About</SectionLabel>
+      </motion.div>
+      <motion.h2
+        variants={fadeInUp}
+        className="mt-8 font-heading text-3xl font-medium leading-tight tracking-tight text-foreground/80 md:text-4xl"
       >
-        <div className="about-card">
-          <img src={free} alt="" style={{ objectFit: "contain" }} />
-          <h2>Freelancer</h2>
-          <p>
-            freelance software developer with 5 years of experience. I have
-            expertise in software Engineering , and I'm skilled in developing
-            web applications, mobile apps and Desktop Applications.
-          </p>
-        </div>
-        <div className="about-card">
-          <img src={web} alt="" />
-          <h2>Web developer</h2>
-          <p>
-            versatile in designing web pages, and ensuring the functionality of
-            website with varrious programming languages, such as HTM, CSS,
-            Javascript, react, etc .
-          </p>
-        </div>
-        <div className="about-card">
-          <img src={mobile} alt="" />
-          <h2>Mobile developer</h2>
-          <p>
-            Kownlage in creating a user-friendly and visually appealing
-            interffaces for mobile app to enhance the user experience, and
-            connecting moblie apps to backend service and databases, using APIs.
-          </p>
-        </div>
-        <div className="about-card">
-          <img src={js} alt="" style={{ objectFit: "contain" }} />
-          <h2>Javascript Developer</h2>
-          <p>
-            Writing Javascript code to enhance the interactivity and
-            functionality of web pages. Building complex web applications using
-            JavaScript and related framework like React.
-          </p>
-        </div>
-        <div className="about-card">
-          <img src={mern} alt="" style={{ objectFit: "contain" }} />
-          <h2>MERN stack</h2>
-          <p>
-            Good knowlage in MongoDB, Express.js, Nod.js. Design implement
-            databases to store application data, using Node.js and Express.js to
-            build the serev-side logic and usin APIs to connect the front-end
-            and back-end, enabling data exchange and functionality.
-          </p>
-        </div>
-      </div>
-    </div>
+        Turning ideas into working software, with clarity, care and clean code
+      </motion.h2>
+      <motion.p variants={fadeInUp} className="mt-8 leading-relaxed text-mutedForeground">
+        I'm a freelance software developer with five years spent across the
+        web, mobile, and everything that connects them. I design and build
+        interfaces with HTML, CSS, JavaScript and React, write server-side logic
+        with Node.js, Express and MongoDB, and I'm growing into systems
+        programming with Rust.
+      </motion.p>
+
+      <motion.div variants={fadeInUp} className="mt-12">
+        {facts.map(({ label, detail, value }) => (
+          <div
+            key={label}
+            className="flex items-start justify-between gap-6 border-t border-border py-7 last:border-b"
+          >
+            <div>
+              <h3 className="font-heading text-xl">{label}</h3>
+              <p className="mt-1 text-mutedForeground">{detail}</p>
+            </div>
+            <p className="text-right font-heading text-xl text-foreground/80">{value}</p>
+          </div>
+        ))}
+      </motion.div>
+    </motion.div>
   );
 };
 
