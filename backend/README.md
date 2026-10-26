@@ -1,7 +1,8 @@
 # Portfolio API
 
-Rust backend for the portfolio: Axum + SQLx + PostgreSQL. It serves the site's
-content, receives contact-form messages, and records simple analytics.
+Node.js backend for the portfolio: Express + node-postgres + PostgreSQL. It serves
+the site's content, receives contact-form messages (emailed through Resend), and
+records simple analytics.
 
 ## Run locally
 
@@ -11,7 +12,10 @@ docker run -d --name portfolio-db -e POSTGRES_USER=portfolio \
   -e POSTGRES_PASSWORD=portfolio -e POSTGRES_DB=portfolio -p 5433:5432 postgres:16-alpine
 
 cp .env.example .env          # then set ADMIN_TOKEN (openssl rand -hex 32)
-cargo run                     # runs migrations on startup, listens on :8080
+npm install
+npm run dev                   # runs migrations on startup, listens on :8080
+npm test                      # unit tests
+npm run send-test-email       # sends Resend's "Hello World" to CONTACT_TO
 ```
 
 Point the frontend at it with `REACT_APP_API_URL=http://localhost:8080` in
@@ -51,13 +55,16 @@ contact message is also emailed to `CONTACT_TO` through Resend's HTTPS API (SMTP
 is blocked on Render's free tier). Set `TRUST_PROXY=true` when deployed behind a
 proxy (Render, Railway, Fly.io) so rate limiting sees real client IPs.
 
+Migrations are plain SQL files in `migrations/`, applied in name order on startup
+and recorded in the `schema_migrations` table. Add new ones as `0003_*.sql`, etc.
+
 ## Deploy (Render + Neon)
 
 [`../render.yaml`](../render.yaml) is a Render Blueprint for this service. The
 database is on Neon, because Render's free Postgres is deleted after 30 days.
 
 1. Create a Neon project and copy its **direct** connection string (connection
-   pooling off; migrations need a direct connection).
+   pooling off).
 2. In Render: New → Blueprint → pick this repo and branch. Fill in
    `DATABASE_URL` and `RESEND_API_KEY` when asked. `ADMIN_TOKEN` is generated;
    find it under the service's Environment tab.
@@ -65,7 +72,3 @@ database is on Neon, because Render's free Postgres is deleted after 30 days.
 
 Free Render services sleep after ~15 minutes idle; the first request after that
 takes up to a minute.
-
-The [Dockerfile](Dockerfile) builds without a database (`SQLX_OFFLINE`, using the
-checked-in `.sqlx/` query data). After changing any SQL query, regenerate it with
-`cargo sqlx prepare` against a running database and commit `.sqlx/`.

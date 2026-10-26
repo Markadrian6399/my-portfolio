@@ -1,16 +1,16 @@
 services:
   - type: web
     name: portfolio-api
-    runtime: docker
+    runtime: node
     plan: free
     region: frankfurt
-    dockerContext: ./backend
-    dockerfilePath: ./backend/Dockerfile
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
     healthCheckPath: /health
-    buildFilter:
-      paths:
-        - backend/**
     envVars:
+      - key: NODE_VERSION
+        value: "20"
       # Neon connection string (direct, not pooled), e.g.
       # postgresql://user:pass@ep-xxx.eu-central-1.aws.neon.tech/neondb?sslmode=require
       - key: DATABASE_URL
