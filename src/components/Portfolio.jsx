@@ -3,40 +3,41 @@ import { ArrowUpRight, Sparkles } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import SectionLabel from "./SectionLabel";
 import { container, fadeInUp, viewport } from "../lib/motion";
+import { trackEvent, useApi } from "../lib/api";
 
 const projects = [
   {
     title: "Shoe Color Drop",
     tag: "HTML & JavaScript",
-    live: "https://vercel.com/markadrian6399/shoe-drop",
-    code: "https://github.com/Markadrian6399/shoe-drop",
+    liveUrl: "https://vercel.com/markadrian6399/shoe-drop",
+    codeUrl: "https://github.com/Markadrian6399/shoe-drop",
   },
   {
     title: "Kimana",
     tag: "Web App",
-    live: "https://kimana-frontend-3agvmkquh-markadrian6399s-projects.vercel.app/",
+    liveUrl: "https://kimana-frontend.vercel.app/",
   },
   {
     title: "LumaBet",
     tag: "Web3 · Stellar",
-    live: "https://luma-bet-frontend.vercel.app/",
+    liveUrl: "https://luma-bet-frontend.vercel.app/",
   },
   {
     title: "Music Player",
     tag: "JavaScript",
-    code: "https://github.com/Markadrian6399/mix-musik",
+    codeUrl: "https://github.com/Markadrian6399/mix-musik",
   },
   {
     title: "Photo E-gallery",
     tag: "MERN",
-    live: "https://vercel.com/markadrian6399/ecom-client",
-    code: "https://github.com/Markadrian6399/Ecom",
+    liveUrl: "https://vercel.com/markadrian6399/ecom-client",
+    codeUrl: "https://github.com/Markadrian6399/Ecom",
   },
 ];
 
 const glows = ["20% 30%", "80% 20%", "30% 80%", "75% 75%", "50% 10%"];
 
-const ProjectCard = ({ index, title, tag, live, code }) => (
+const ProjectCard = ({ index, title, tag, liveUrl, codeUrl }) => (
   <div className="group rounded-[28px] border border-border bg-card p-2 transition-colors duration-200 hover:border-accent/40">
     <div
       className="relative flex aspect-[16/9] flex-col justify-between overflow-hidden rounded-[22px] border border-white/5 p-6 sm:p-8"
@@ -57,21 +58,23 @@ const ProjectCard = ({ index, title, tag, live, code }) => (
       </h3>
     </div>
     <div className="flex items-center justify-end gap-5 px-4 py-3 text-sm">
-      {live && (
+      {liveUrl && (
         <a
-          href={live}
+          href={liveUrl}
           target="_blank"
           rel="noreferrer"
+          onClick={() => trackEvent("project_click", title)}
           className="inline-flex items-center gap-1.5 text-accent transition-opacity duration-150 hover:opacity-80"
         >
           Live <ArrowUpRight size={15} />
         </a>
       )}
-      {code && (
+      {codeUrl && (
         <a
-          href={code}
+          href={codeUrl}
           target="_blank"
           rel="noreferrer"
+          onClick={() => trackEvent("project_click", title)}
           className="inline-flex items-center gap-1.5 text-mutedForeground transition-colors duration-150 hover:text-foreground"
         >
           <FaGithub size={14} /> Code
@@ -82,6 +85,8 @@ const ProjectCard = ({ index, title, tag, live, code }) => (
 );
 
 const Portfolio = () => {
+  const items = useApi("/api/projects", projects);
+
   return (
     <motion.div
       initial="hidden"
@@ -100,8 +105,8 @@ const Portfolio = () => {
       </motion.h2>
 
       <div className="mt-14 flex flex-col gap-8">
-        {projects.map((project, index) => (
-          <motion.div key={project.title} variants={fadeInUp}>
+        {items.map((project, index) => (
+          <motion.div key={project.id ?? project.title} variants={fadeInUp}>
             <ProjectCard index={index} {...project} />
           </motion.div>
         ))}

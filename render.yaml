@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: portfolio-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # Neon connection string (direct, not pooled), e.g.
+      # postgresql://user:pass@ep-xxx.eu-central-1.aws.neon.tech/neondb?sslmode=require
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: ALLOWED_ORIGINS
+        value: https://odibamark.netlify.app,http://localhost:3000
+      - key: TRUST_PROXY
+        value: "true"
+      - key: CONTACT_TO
+        value: markodiba6399@gmail.com
+      - key: RESEND_API_KEY
+        sync: false

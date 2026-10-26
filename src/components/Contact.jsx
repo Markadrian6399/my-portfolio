@@ -4,6 +4,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { Mail, Send } from "lucide-react";
 import { toast } from "react-toastify";
 import SectionLabel from "./SectionLabel";
+import { API_URL, sendContact } from "../lib/api";
 
 const Contact = () => {
   const form = useRef();
@@ -15,18 +16,32 @@ const Contact = () => {
     SetLoading("Sending...");
     btn.current.disabled = true;
     try {
-      await emailjs.sendForm(
-        "service_25w4cla",
-        "template_qprrztq",
-        form.current,
-        "Z7N6Vq2E2V9j0HbJg"
-      );
+      if (API_URL) {
+        const fields = new FormData(form.current);
+        await sendContact({
+          name: fields.get("from_name"),
+          email: fields.get("reply_to"),
+          message: fields.get("message"),
+          website: fields.get("website"),
+        });
+      } else {
+        await emailjs.sendForm(
+          "service_25w4cla",
+          "template_qprrztq",
+          form.current,
+          "Z7N6Vq2E2V9j0HbJg"
+        );
+      }
       SetLoading("Sent!");
       toast.success("Message sent! I'll get back to you soon.");
       form.current.reset();
     } catch (error) {
       SetLoading("Try again");
-      toast.error("Something went wrong. Please check your connection and try again.");
+      toast.error(
+        error.message && API_URL
+          ? error.message
+          : "Something went wrong. Please check your connection and try again."
+      );
     } finally {
       btn.current.disabled = false;
       setTimeout(() => SetLoading(false), 3000);
@@ -66,6 +81,14 @@ const Contact = () => {
       <form ref={form} onSubmit={sendEmail} className="mt-12 grid gap-4 sm:grid-cols-2">
         <input type="text" name="from_name" placeholder="Your name" required className={inputClass} />
         <input type="email" name="reply_to" placeholder="Your email" required className={inputClass} />
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="absolute -left-[9999px] h-px w-px opacity-0"
+        />
         <textarea
           name="message"
           rows="6"
